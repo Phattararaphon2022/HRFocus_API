@@ -378,6 +378,8 @@ namespace HRFocusWCF
         public string ReasonID { get; set; }
         public string ReasonNameE { get; set; }
         public string ReasonNameT { get; set; }
+        public bool ResignStatus { get; set; }
+        public string ResignDate { get; set; }
     }
     public class Employee
     {

@@ -77,8 +77,8 @@ namespace HRFocusWCF
         ApiResponse<Employee> EmployeeProfileList(string com, string type, string from, string to, string status, string branchid);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "EmployeePosition?CompanyCode={com}&Fromdate={from}&Todate={to}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<EmployeePositionModel> EmployeePositionList(string com, string from, string to);
+        [WebInvoke(Method = "GET", UriTemplate = "EmployeePosition?CompanyCode={com}&Fromdate={from}&Todate={to}&ResignStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<EmployeePositionModel> EmployeePositionList(string com, string from, string to, string status);
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "IncomeDeduct", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

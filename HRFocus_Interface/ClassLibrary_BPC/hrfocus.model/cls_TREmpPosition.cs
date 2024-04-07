@@ -28,6 +28,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string ReasonNameE { get; set; }
         public string ReasonNameT { get; set; }
 
+        public DateTime ResignDate { get; set; }
+        public bool ResignStatus { get; set; }
+
 
 
     }

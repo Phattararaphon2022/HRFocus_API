@@ -1385,6 +1385,7 @@ namespace HRFocusWCF
                         Employee.WorkStartDate = data.WorkStartDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
                         Employee.ProbationEndDate = data.ProbationEndDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
                         Employee.ProbationLimit = data.ProbationLimit;
+                        Employee.ResignDate = !data.ResignDate.ToString("yyyy-MM-dd").Equals("1900-01-01") ? data.ResignDate.ToString("yyyy-MM-dd'T'HH:mm:ss") : null;
                         Employee.ResignStatus = data.ResignStatus;
                         Employee.ResignReasonID = data.ResignReasonID;
                         Employee.ResignDetial = data.ResignDetial;
@@ -1413,7 +1414,7 @@ namespace HRFocusWCF
 
             return response;
         }
-        public ApiResponse<EmployeePositionModel> EmployeePositionList(string CompanyCode,string Fromdate, string Todate)
+        public ApiResponse<EmployeePositionModel> EmployeePositionList(string CompanyCode, string Fromdate, string Todate, string ResignStatus)
         {
             ApiResponse<EmployeePositionModel> response = new ApiResponse<EmployeePositionModel>();
             response.data = new List<EmployeePositionModel>();
@@ -1437,7 +1438,7 @@ namespace HRFocusWCF
                 var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
                 ModifiedBy = usr.Value;
                 cls_ctTREmpPosition controller = new cls_ctTREmpPosition();
-                List<cls_TREmpPosition> list = controller.getDataByFillter2(CompanyCode == null ? "" : CompanyCode, "", Fromdate == null ? "" : Fromdate, Todate == null ? "" : Todate);
+                List<cls_TREmpPosition> list = controller.getDataByFillter2(CompanyCode == null ? "" : CompanyCode, "", Fromdate == null ? "" : Fromdate, Todate == null ? "" : Todate, ResignStatus == null ? "" : ResignStatus);
 
                 JArray array = new JArray();
 
@@ -1455,6 +1456,8 @@ namespace HRFocusWCF
                         EmployeePositionModel.ReasonID = data.ReasonID;
                         EmployeePositionModel.ReasonNameE = data.ReasonNameE;
                         EmployeePositionModel.ReasonNameT = data.ReasonNameT;
+                        EmployeePositionModel.ResignStatus = data.ResignStatus;
+                        EmployeePositionModel.ResignDate = !data.ResignDate.ToString("yyyy-MM-dd").Equals("1900-01-01") ? data.ResignDate.ToString("yyyy-MM-dd'T'HH:mm:ss") : null;
 
                         response.data.Add(EmployeePositionModel);
                     }

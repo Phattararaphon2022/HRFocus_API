@@ -163,6 +163,13 @@
                         "type": "string",
                         "value": "2023-12-31",
                         "description": "yyyy-MM-dd"
+                    },
+                    {
+                        "name": "ResignStatus",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "description": "Y = True or N = False"
                     }
                 ],
                 "security": [

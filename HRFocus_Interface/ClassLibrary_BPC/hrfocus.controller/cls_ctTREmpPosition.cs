@@ -105,19 +105,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ");
-                obj_str.Append("tbTREmpPosition.CompID, ");
-                obj_str.Append("tbTREmpPosition.EmpID, ");
-                obj_str.Append("tbTREmpPosition.PositionID, ");
-                obj_str.Append("tbTREmpPosition.PositionDate, ");
-                obj_str.Append("tbMTPosition.PositionNameE, ");
-                obj_str.Append("tbMTPosition.PositionNameT, ");
-                obj_str.Append("tbTREmpPosition.ReasonID, ");
-                obj_str.Append("tbMTReason.ReasonNameE, ");
-                obj_str.Append("tbMTReason.ReasonNameT ");
+                obj_str.AppendLine("SELECT");
+                obj_str.AppendLine("tbTREmpPosition.CompID,");
+                obj_str.AppendLine("tbTREmpPosition.EmpID,");
+                obj_str.AppendLine("tbTREmpPosition.PositionID,");
+                obj_str.AppendLine("tbTREmpPosition.PositionDate,");
+                obj_str.AppendLine("tbMTPosition.PositionNameE,");
+                obj_str.AppendLine("tbMTPosition.PositionNameT,");
+                obj_str.AppendLine("tbTREmpPosition.ReasonID,");
+                obj_str.AppendLine("tbMTReason.ReasonNameE,");
+                obj_str.AppendLine("tbMTReason.ReasonNameT,");
+                obj_str.AppendLine("ISNULL(tbMTEmpMain.ResignStatus, 0) AS ResignStatus, ISNULL(tbMTEmpMain.ResignDate, '') AS ResignDate");
                 obj_str.AppendLine("FROM tbTREmpPosition");
                 obj_str.AppendLine("JOIN tbMTPosition ON tbMTPosition.CompID = tbTREmpPosition.CompID AND tbMTPosition.PositionID = tbTREmpPosition.PositionID");
                 obj_str.AppendLine("JOIN tbMTReason ON tbMTReason.ReasonID = tbTREmpPosition.ReasonID AND tbMTReason.ReasonGroup = 'POS'");
+                obj_str.AppendLine("JOIN tbMTEmpMain ON tbTREmpPosition.CompID = tbMTEmpMain.CompID AND tbTREmpPosition.EmpID = tbMTEmpMain.EmpID");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -138,6 +140,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.ReasonID = dr["ReasonID"].ToString();
                     model.ReasonNameE = dr["ReasonNameE"].ToString();
                     model.ReasonNameT = dr["ReasonNameT"].ToString();
+                    model.ResignStatus = Convert.ToBoolean(dr["ResignStatus"]);
+                    model.ResignDate = Convert.ToDateTime(dr["ResignDate"]);
 
                     list_model.Add(model);
                 }
@@ -151,9 +155,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TREmpPosition> getDataByFillter2(string com, string emp,string from, string to)
+        public List<cls_TREmpPosition> getDataByFillter2(string com, string emp,string from, string to,string status)
         {
             string strCondition = "";
+            if (status.Equals("Y"))
+                strCondition += " AND tbMTEmpMain.ResignStatus=" + 1 + "";
+
+            if (status.Equals("N"))
+                strCondition += " AND tbMTEmpMain.ResignStatus=" + 0 + "";
 
             if (!com.Equals(""))
                 strCondition += " AND tbTREmpPosition.CompID='" + com + "'";
